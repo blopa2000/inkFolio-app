@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.inkfolio.app.*
 import com.inkfolio.app.ui.theme.InkFolioTheme
+import com.inkfolio.proyecto.R
+
 
 // ─── DATA: publicaciones de ejemplo ───────────────────────────────────────────
 data class Post(
@@ -30,19 +32,19 @@ data class Post(
 // ⚠️ IMPORTANTE: luego reemplazas estas imágenes por tus tattoos reales
 val posts = listOf(
     Post(
-        imagen = android.R.drawable.ic_menu_gallery,
+        imagen = R.drawable.tattorosas,
         titulo = "Blackwork Rosa",
         estilo = "Blackwork",
         descripcion = "Diseño floral con líneas sólidas y sombreado profundo."
     ),
     Post(
-        imagen = android.R.drawable.ic_menu_gallery,
+        imagen = R.drawable.tattodragonjapones,
         titulo = "Dragón Japonés",
         estilo = "Oriental",
         descripcion = "Composición dinámica con detalles tradicionales japoneses."
     ),
     Post(
-        imagen = android.R.drawable.ic_menu_gallery,
+        imagen = R.drawable.tattocalavera,
         titulo = "Calavera Realista",
         estilo = "Realismo",
         descripcion = "Sombras suaves y alto nivel de detalle en textura ósea."
@@ -90,7 +92,6 @@ fun WebScreen() {
 // ─── CARD DE PUBLICACIÓN ─────────────────────────────────────────────────────
 @Composable
 fun PostCard(post: Post) {
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -98,8 +99,6 @@ fun PostCard(post: Post) {
             .background(ColorSuperficie)
             .padding(10.dp)
     ) {
-
-        // Imagen
         Image(
             painter = painterResource(id = post.imagen),
             contentDescription = post.titulo,
@@ -109,32 +108,11 @@ fun PostCard(post: Post) {
                 .clip(RoundedCornerShape(10.dp)),
             contentScale = ContentScale.Crop
         )
-
         Spacer(modifier = Modifier.height(8.dp))
-
-        // Título
-        Text(
-            text = post.titulo,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            color = ColorTexto
-        )
-
-        // Estilo
-        Text(
-            text = post.estilo,
-            fontSize = 11.sp,
-            color = ColorDorado
-        )
-
+        Text(post.titulo, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = ColorTexto)
+        Text(post.estilo, fontSize = 11.sp, color = ColorDorado)
         Spacer(modifier = Modifier.height(4.dp))
-
-        // Descripción
-        Text(
-            text = post.descripcion,
-            fontSize = 11.sp,
-            color = ColorTextoTenue
-        )
+        Text(post.descripcion, fontSize = 11.sp, color = ColorTextoTenue)
     }
 }
 

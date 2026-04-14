@@ -52,45 +52,47 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// ─── APP PRINCIPAL (AQUÍ ESTÁ EL CAMBIO REAL) ────────────────────────────────
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InkFolioApp() {
-
     var seccionActiva by remember { mutableStateOf(Seccion.PERFIL) }
-
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
+        // IMPORTANTE: Gestos activados para probar si abre deslizando
+        gesturesEnabled = true,
         drawerContent = {
-            MenuPanel(
-                seccionActiva = seccionActiva,
-                onSeccionSeleccionada = {
-                    seccionActiva = it
-                    scope.launch { drawerState.close() }
-                }
-            )
+            // ModalDrawerSheet es obligatorio en Material3 para que se vea
+            ModalDrawerSheet(
+                drawerContainerColor = ColorMenu,
+                modifier = Modifier.width(260.dp)
+            ) {
+                MenuPanel(
+                    seccionActiva = seccionActiva,
+                    onSeccionSeleccionada = {
+                        seccionActiva = it
+                        scope.launch { drawerState.close() }
+                    }
+                )
+            }
         }
     ) {
-
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = {
-                        Text(
-                            "InkFolio",
-                            color = ColorDorado
-                        )
-                    },
+                    title = { Text("InkFolio", color = ColorDorado) },
                     navigationIcon = {
                         IconButton(onClick = {
-                            scope.launch { drawerState.open() }
+                            // Este es el activador del botón
+                            scope.launch {
+                                drawerState.open()
+                            }
                         }) {
                             Icon(
                                 imageVector = Icons.Filled.Menu,
-                                contentDescription = "Menu",
+                                contentDescription = "Abrir Menú",
                                 tint = ColorDorado
                             )
                         }
@@ -101,7 +103,6 @@ fun InkFolioApp() {
                 )
             }
         ) { padding ->
-
             Box(
                 modifier = Modifier
                     .fillMaxSize()
